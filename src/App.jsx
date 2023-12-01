@@ -69,14 +69,14 @@ function App() {
 
   return (
     <>
-      <div className="w-full h-screen p-12 flex flex-col items-center bg-neutral-800">
-        <h1 className="text-6xl font-extrabold text-white">
+      <div className="w-full h-auto sm:h-screen p-12 flex flex-col items-center bg-neutral-800">
+        <h1 className="text-2xl text-center md:text-6xl font-extrabold text-white">
           🌦️ Weather Application 🌦️
         </h1>
 
 
-        <form method="get" className='w-full flex items-center justify-center' onSubmit={handleSubmit}>
-          <select className='text-2xl font-bold' name="countrySelect" id="countrySelect" onChange={(e)=>{setCountrySelect(e.target.value); console.log(e.target.value)}}>
+        <form method="get" className='w-full sm:w-1/2 mt-12 flex flex-wrap items-center justify-center' onSubmit={handleSubmit}>
+          <select className='rounded-lg py-1 text-2xl font-bold' name="countrySelect" id="countrySelect" onChange={(e)=>{setCountrySelect(e.target.value); console.log(e.target.value)}}>
             <option value="" defaultChecked></option>
             <option value="PH">PH</option>
             <option value="US">US</option>
@@ -85,11 +85,11 @@ function App() {
           </select>
 
           <input type="text" name='city' placeholder='Enter a city name'
-          className='py-1 px-3 m-12 text-3xl font-medium rounded-xl' 
+          className='w-[100px] sm:w-[300px] py-1 px-3 mx-2 text-3xl font-medium rounded-xl' 
           onChange={(e)=>setCity(e.target.value)}
           />
 
-          <button className='py-2 px-3 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-medium'>
+          <button className='py-2.5 px-3 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 font-medium'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
           </svg>
@@ -98,7 +98,7 @@ function App() {
         </form>
         
 
-        <div className="w-full sm:w-1/3 h-96 p-5 m-12 text-center rounded-xl bg-neutral-300 shadow-xl">
+        <div className="w-full sm:w-1/3 h-auto p-5 m-12 text-center rounded-xl bg-neutral-300 shadow-xl">
 
           { 
             isLoading ? 
@@ -118,13 +118,7 @@ function App() {
               </div>
             </>
           }
-          
-          
-         
         </div>
-
-
-
       </div>
     </>
   )
