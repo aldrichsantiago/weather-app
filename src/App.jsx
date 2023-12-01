@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { capitalizeFirstLetter, formatInputString } from './helpers';
 
-
 function App() {
   const [city, setCity] = useState('')
   const [countrySelect, setCountrySelect] = useState('')
   const [name, setName] = useState('')
   const [cityState, setCityState] = useState('')
   const [country, setCountry] = useState('')
-  const [iconSrc, setIconSrc] = useState('')
+  const [iconSrc, setIconSrc] = useState(`https://openweathermap.org/img/wn/04d@2x.png`)
   const [description, setDescription] = useState('')
   const [temp, setTemp] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -22,25 +21,23 @@ function App() {
     const { weather } = weatherData;
     let icon = weather[0].icon
     setDescription(capitalizeFirstLetter(weather[0].description))
-    setIconSrc(`https://openweathermap.org/img/wn/${icon}@2x.png`)
+    setIconSrc(`https://openweathermap.org/img/wn/${icon?icon:'04d'}@2x.png`)
   }
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     setIsLoading(true)
     let cityName = formatInputString(city)
-    console.log(cityName)
 
     try {
-      const geoResponse = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName},${countrySelect}&limit=1&appid=${import.meta.env.VITE_API_KEY}`)
+      const geoResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${countrySelect}&limit=1&appid=${import.meta.env.VITE_API_KEY}`)
       const geoResponseData = await geoResponse.json();
       if (geoResponseData.length === 0) {
         alert("There is no city with that name.");
         setIsLoading(false)
-
         return;
       }
-      console.log(geoResponseData);
+      // console.log(geoResponseData);
       let lon = geoResponseData[0].lon
       let lat = geoResponseData[0].lat
       cityName = geoResponseData[0].name
@@ -50,7 +47,7 @@ function App() {
       try {
         const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}`)
         const weatherResponseData = await weatherResponse.json();
-        console.log(weatherResponseData);
+        // console.log(weatherResponseData);
         computeTemp(weatherResponseData);
         setName(weatherResponseData.name)
         getDescription(weatherResponseData);
@@ -58,16 +55,17 @@ function App() {
       } catch (error) {
         console.log(error);
         alert("An Error Occured");
+        setIsLoading(false)
         return;
       }
     } catch (error) {
       console.log(error);
       alert("An Error Occured");
+      setIsLoading(false)
       return;
     }
     setIsLoading(false)
   }
-  console.log(city)
 
   return (
     <>
